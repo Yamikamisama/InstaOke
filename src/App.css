@@ -31,13 +31,7 @@ body {
     width: auto;
 }
 
-.App-main {
-    position: relative;
-    width: 75vw;
-    height: calc(75vw * .6);
-    margin: 10px auto;
-    border: 1px solid lightblue;
-}
+
 
 .App-control-container {
     display: flex;

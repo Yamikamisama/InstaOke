@@ -30,6 +30,9 @@ class App extends Component {
       });
   }
 
+  getUrl() {
+    return localStorage.songURL
+  }
 
   render() {
     return (
@@ -37,10 +40,9 @@ class App extends Component {
         <div id="myDiv">This text will be replaced with a player.</div>
         <ReactJWPlayer
           playerId='myDiv'
-          isAutoPlay={true}
           aspectRatio='16:9'
           playerScript='https://content.jwplatform.com/libraries/9AFwMfdb.js'
-          file='https://www.youtube.com/watch?v=szROVj0Swcs'
+          file={this.getUrl()}
         />
         <div className="App-main">
         </div>
