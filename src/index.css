@@ -4,11 +4,32 @@ body {
   font-family: sans-serif;
 }
 
+.urlSubmit {
+  color: #fff;
+  background-color: #3e3e3f;
+  display: inline-block;
+  border: 5px solid #3e3e3f;
+  border-left: none;
+  font-size: 17px;
+  height: 35px;
+}
+
+.urlInput {
+  color: black;
+  display: inline-block;
+  float: left;
+  border: 5px solid #3e3e3f;
+  font-size: 17px;
+  height: 35px;
+  width: 304px;
+}
+
 .clickable {
   cursor: pointer;
 }
 
 #myDiv {
+  height: 100vh;
   display: block;
   position: absolute;
   top: 0;

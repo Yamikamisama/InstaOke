@@ -53,7 +53,7 @@ class App extends Component {
     dbRef.once('value')
     .then((ss) => {
       const value = ss.val();
-      const newValue = value ? 2 : 1;
+      const newValue = value === 1 ? 2 : 1;
 
       dbRef.set(newValue);
     });
@@ -72,7 +72,6 @@ class App extends Component {
         <div id="myDiv">This text will be replaced with a player.</div>
         <ReactJWPlayer
           playerId='myDiv'
-          aspectRatio='16:9'
           playerScript='https://content.jwplatform.com/libraries/9AFwMfdb.js'
           file={ this.props.songURL }
           onReady={ this.setPlayerReady }

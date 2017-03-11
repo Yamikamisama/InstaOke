@@ -90,10 +90,9 @@ export default class Home extends Component {
                   <div>
                     <form onSubmit={ this.onURLSubmission }>
                       <label>
-                        Song Url:
-                        <input type="text" name="url" onChange={ this.onURLInputChange } />
+                        <input  className="urlInput" type="text" name="url" placeholder="Song URL" onChange={ this.onURLInputChange } />
+                        <input className="urlSubmit" type="submit" value="Sing!" />
                       </label>
-                      <input type="submit" value="Submit" />
                     </form>
                   </div>
                 </div>
