@@ -2,14 +2,15 @@
 import React, { Component } from 'react';
 import Spinner from 'react-spinner';
 import classNames from 'classnames';
+import ReactJWPlayer from 'react-jw-player';
 
+// import opentok from 'opentok';
 import otCore from 'opentok-accelerator-core';
 import 'opentok-solutions-css';
 
 import logo from './logo.svg';
 import config from '../config.json';
 import './App.css';
-
 
 const otCoreOptions = {
   credentials: {
@@ -31,7 +32,7 @@ const otCoreOptions = {
     }[pubSub][type];
   },
   controlsContainer: '#controls',
-  packages: ['textChat', 'screenSharing', 'annotation', 'archiving'],
+  packages: ['archiving'],
   communication: {
     callProperites: null, // Using default
   },
@@ -56,12 +57,6 @@ const otCoreOptions = {
       videoSource: 'window',
       fitMode: 'contain' // Using default
     },
-  },
-  annotation: {
-    absoluteParent: {
-      publisher: '.App-video-container',
-      subscriber: '.App-video-container'
-    }
   },
   archiving: {
     startURL: 'https://example.com/startArchive',
@@ -173,16 +168,22 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1>OpenTok Accelerator Core</h1>
-        </div>
+      <div id="myDiv">This text will be replaced with a player.</div>
+      <ReactJWPlayer
+        playerId='myDiv'
+        isAutoPlay={true}
+        aspectRatio='16:9'
+        playerScript='https://content.jwplatform.com/libraries/9AFwMfdb.js'
+        file='https://www.youtube.com/watch?v=szROVj0Swcs'
+      />
         <div className="App-main">
           <div className="App-video-container">
-            { !connected && connectingMask() }
-            { connected && !active && startCallMask(this.startCall)}
+            { !active && startCallMask(this.startCall)}
             <div id="cameraPublisherContainer" className={cameraPublisherClass} />
             <div id="screenPublisherContainer" className={screenPublisherClass} />
+          </div>
+          <div className="App-video-container2">
+            { !active && startCallMask(this.startCall)}
             <div id="cameraSubscriberContainer" className={cameraSubscriberClass} />
             <div id="screenSubscriberContainer" className={screenSubscriberClass} />
           </div>
