@@ -66,6 +66,10 @@ export default class Home extends Component {
     });
   }
 
+  displayClassName() {
+    return this.state.hasSongURL ? 'joinButton' : 'createButton'
+  }
+
   render() {
     return (
       <div>
@@ -74,7 +78,7 @@ export default class Home extends Component {
               <h1>InstaOke</h1>
               <h3>Sing with a friend through the InstaOke App</h3>
               <br/>
-              <button className="joinButton" onClick={ this.onJoin }></button>
+              <button className={this.displayClassName()} onClick={ this.onJoin }></button>
               {
                 !this.state.hasSongURL && this.state.displayURLModal ? (
                 <div>
