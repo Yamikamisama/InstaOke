@@ -106,6 +106,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       connected: false,
       active: false,
@@ -113,11 +114,21 @@ class App extends Component {
       subscribers: null,
       meta: null,
       localAudioEnabled: true,
-      localVideoEnabled: true,
+      localVideoEnabled: true
     };
+
     this.startCall = this.startCall.bind(this);
     this.toggleLocalAudio = this.toggleLocalAudio.bind(this);
     this.toggleLocalVideo = this.toggleLocalVideo.bind(this);
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    const { openSession } = nextProps;
+
+    if (openSession) {
+      this.startCall();
+    }
   }
 
   componentDidMount() {
@@ -139,9 +150,10 @@ class App extends Component {
 
   startCall() {
     otCore.startCall()
-      .then(({ publisher, publishers, subscribers, meta }) => {
-        this.setState({ publishers, subscribers, meta, active: true });
-      }).catch(error => console.log(error));
+    .then(({ publisher, publishers, subscribers, meta }) => {
+      this.setState({ publishers, subscribers, meta, active: true });
+    })
+    .catch(error => console.log(error));
   }
 
   toggleLocalAudio() {
@@ -156,6 +168,7 @@ class App extends Component {
 
   render() {
     const { connected, active } = this.state;
+    const { openSession } = this.props;
     const {
       localAudioClass,
       localVideoClass,
@@ -168,14 +181,14 @@ class App extends Component {
 
     return (
       <div className="App">
-      <div id="myDiv">This text will be replaced with a player.</div>
-      <ReactJWPlayer
-        playerId='myDiv'
-        isAutoPlay={true}
-        aspectRatio='16:9'
-        playerScript='https://content.jwplatform.com/libraries/9AFwMfdb.js'
-        file='https://www.youtube.com/watch?v=szROVj0Swcs'
-      />
+        <div id="myDiv">This text will be replaced with a player.</div>
+        <ReactJWPlayer
+          playerId='myDiv'
+          isAutoPlay={true}
+          aspectRatio='16:9'
+          playerScript='https://content.jwplatform.com/libraries/9AFwMfdb.js'
+          file='https://www.youtube.com/watch?v=szROVj0Swcs'
+        />
         <div className="App-main">
           <div className="App-video-container">
             { !active && startCallMask(this.startCall)}
@@ -187,11 +200,6 @@ class App extends Component {
             <div id="cameraSubscriberContainer" className={cameraSubscriberClass} />
             <div id="screenSubscriberContainer" className={screenSubscriberClass} />
           </div>
-          <div id="controls" className={controlClass}>
-            <div className={localAudioClass} onClick={this.toggleLocalAudio} />
-            <div className={localVideoClass} onClick={this.toggleLocalVideo} />
-          </div>
-          <div id="chat" className="App-chat-container" />
         </div>
       </div>
     );

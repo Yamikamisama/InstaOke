@@ -8,7 +8,8 @@ export default class Home extends Component {
 
     this.state = {
       displayURLModal: false,
-      songUrl: null
+      songUrl: null,
+      openSession: false
     };
 
     this.onJoin = this.onJoin.bind(this);
@@ -26,6 +27,11 @@ export default class Home extends Component {
     event.preventDefault();
     // send songUrl to jwplayer
     console.log(this.state.songUrl);
+    // when jwplayer verifies the url
+    this.setState({
+      openSession: true,
+      displayURLModal: false
+    });
   }
 
   onURLInputChange(event) {
@@ -51,10 +57,10 @@ export default class Home extends Component {
                 <input type="submit" value="Submit" />
               </form>
             </div>
-            <App />
           </div>
           ) : null
         }
+        <App openSession={ this.state.openSession }/>
       </div>
     );
   }
