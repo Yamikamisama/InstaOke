@@ -19,6 +19,7 @@ class App extends Component {
     super(props);
 
     this.removeSongURL = this.removeSongURL.bind(this);
+    this.setPlayerReady = this.setPlayerReady.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +36,21 @@ class App extends Component {
     });
   }
 
+  setPlayerReady() {
+    this.props.db.ref('ready').once('value')
+    .then((ss) => {
+      console.log(value);
+      const value = ss.val();
+      const newValue = value ? 2 : 1;
+
+      this.props.db.ref('ready').set(newValue)
+
+      if (newValue === 2) {
+        jwplayer().play(true);
+      }
+    });
+  }
+
   removeSongURL() {
     return this.props.db.ref('songURL').remove();
   }
@@ -48,6 +64,7 @@ class App extends Component {
           aspectRatio='16:9'
           playerScript='https://content.jwplatform.com/libraries/9AFwMfdb.js'
           file={ this.props.songURL }
+          onReady={ this.setPlayerReady }
           onOneHundredPercent={ this.removeSongURL }
         />
         <div className="App-main">
