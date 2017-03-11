@@ -37,8 +37,7 @@ class App extends Component {
   }
 
   setPlayerReady() {
-    this.props.db.ref('ready').once('value')
-    .then((ss) => {
+    this.props.db.ref('ready').on('value', (ss) => {
       console.log(value);
       const value = ss.val();
       const newValue = value ? 2 : 1;
