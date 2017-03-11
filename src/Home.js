@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import firebase from 'firebase/app';
+import 'firebase/database';
 import App from './App';
 
 export default class Home extends Component {
@@ -7,11 +9,12 @@ export default class Home extends Component {
     super(props);
 
     this.state = {
+      hasSongURL: false,
       displayURLModal: false,
-      songUrl: null,
       openSession: false
     };
 
+    this.db = null;
     this.onJoin = this.onJoin.bind(this);
     this.onURLSubmission = this.onURLSubmission.bind(this);
     this.onURLInputChange = this.onURLInputChange.bind(this);
@@ -25,21 +28,46 @@ export default class Home extends Component {
 
   onURLSubmission(event) {
     event.preventDefault();
-    // send songUrl to jwplayer
-    console.log(this.state.songUrl);
-    // when jwplayer verifies the url
-    localStorage.setItem("songURL", this.state.songUrl);
-    this.setState({
-      openSession: true,
-      displayURLModal: false
+    this.db.ref('songURL').set(this.state.songURL)
+    .then(() => {
+      this.setState({
+        openSession: true,
+        hasSongURL: true
+      });
     });
   }
 
   onURLInputChange(event) {
     event.preventDefault();
     this.setState({
-      songUrl: event.target.value
+      songURL: event.target.value
     });
+  }
+
+  componentWillMount() {
+    const config = {
+      apiKey: "AIzaSyApLK9EnnEerhb7FkqKguzUYnX7NB2IiZw",
+      authDomain: "instaoke-565dc.firebaseapp.com",
+      databaseURL: "https://instaoke-565dc.firebaseio.com",
+      storageBucket: "instaoke-565dc.appspot.com",
+      messagingSenderId: "888033206019"
+    };
+
+    firebase.initializeApp(config);
+
+    this.db = firebase.database();
+
+    this.db.ref('instaOke').set('ok');
+
+    this.db.ref('songURL').on('value', (ss) => {
+      const value = ss.val();
+
+      this.setState({ hasSongURL: !!value });
+    });
+  }
+
+  componentDidMount() {
+
   }
 
   render() {
@@ -52,7 +80,7 @@ export default class Home extends Component {
               <br/>
               <button className="joinButton" onClick={ this.onJoin }></button>
               {
-                this.state.displayURLModal ? (
+                !this.state.hasSongURL && this.state.displayURLModal ? (
                 <div>
                   <div>
                     <form onSubmit={ this.onURLSubmission }>
@@ -68,8 +96,7 @@ export default class Home extends Component {
               }
           </div>
       </header>
-
-        { this.state.openSession ? <App /> : null }
+        { this.state.openSession ? <App songURL={ this.state.songURL } db={ this.db } /> : null }
       </div>
     );
   }

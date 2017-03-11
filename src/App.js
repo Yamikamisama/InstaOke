@@ -15,25 +15,21 @@ import './App.css';
 
 
 class App extends Component {
-
   componentDidMount() {
     var apiKey = '45793172';
     var sessionId = '1_MX40NTc5MzE3Mn5-MTQ4OTI0OTA1NTg3NX5LOWhWZnhveTFKa1czUWhzTmxYK0hJYm5-fg';
     var token = 'T1==cGFydG5lcl9pZD00NTc5MzE3MiZzaWc9MjI5NDFjZmE0NmNjNjE0MGM2Njc3OWUyM2I2ZTQzMmNlZTZjM2UyYzpzZXNzaW9uX2lkPTFfTVg0ME5UYzVNekUzTW41LU1UUTRPVEkwT1RBMU5UZzNOWDVMT1doV1puaHZlVEZLYTFjelVXaHpUbXhZSzBoSlltNS1mZyZjcmVhdGVfdGltZT0xNDg5MjQ5MDYzJm5vbmNlPTAuNDIxMDU5MDEwMzM5MDEwNiZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNDkxODM3NDYy';
     var session = OT.initSession(apiKey, sessionId)
-      .on('streamCreated', function(event) {
-        session.subscribe(event.stream);
-      })
-      .connect(token, function(error) {
-        var publisher = OT.initPublisher();
-        session.publish(publisher);
-      });
-  }
+    .on('streamCreated', function(event) {
+      session.subscribe(event.stream);
+    })
+    .connect(token, function(error) {
+      var publisher = OT.initPublisher();
+      session.publish(publisher);
+    });
 
-  getUrl() {
-    return localStorage.songURL
+    this.props.db.ref('songURL').remove();
   }
-
   render() {
     return (
       <div className="App">
@@ -42,7 +38,7 @@ class App extends Component {
           playerId='myDiv'
           aspectRatio='16:9'
           playerScript='https://content.jwplatform.com/libraries/9AFwMfdb.js'
-          file={this.getUrl()}
+          file={ this.props.songURL }
         />
         <div className="App-main">
         </div>
