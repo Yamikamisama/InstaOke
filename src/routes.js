@@ -7,7 +7,7 @@ import About from './About';
 const Routes = (props) => (
   <Router {...props}>
     <div>
-      <Route path="/" component={App} />
+      <Route exact path="/" component={App} />
       <Route path="/about" component={About} />
     </div>
   </Router>
