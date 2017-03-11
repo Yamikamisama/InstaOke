@@ -62,7 +62,9 @@
     "webpack-dev-server": "1.16.2"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "dev": "node scripts/start.js",
+    "postinstall": "npm run build",
+    "start": "node server",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
