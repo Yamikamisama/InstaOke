@@ -22,6 +22,16 @@ class App extends Component {
     this.setPlayerReady = this.setPlayerReady.bind(this);
   }
 
+  componentWillMount() {
+    this.props.db.ref('ready').on('value', (ss) => {
+      const value = ss.val();
+
+      if (value === 2) {
+        jwplayer().play(true);
+      }
+    });
+  }
+
   componentDidMount() {
     var apiKey = '45793172';
     var sessionId = '1_MX40NTc5MzE3Mn5-MTQ4OTI0OTA1NTg3NX5LOWhWZnhveTFKa1czUWhzTmxYK0hJYm5-fg';
@@ -37,16 +47,15 @@ class App extends Component {
   }
 
   setPlayerReady() {
-    this.props.db.ref('ready').on('value', (ss) => {
-      console.log(value);
+    console.log('JW PLAYER READY!');
+    const dbRef = this.props.db.ref('ready');
+
+    dbRef.once('value')
+    .then((ss) => {
       const value = ss.val();
       const newValue = value ? 2 : 1;
 
-      this.props.db.ref('ready').set(newValue)
-
-      if (newValue === 2) {
-        jwplayer().play(true);
-      }
+      dbRef.set(newValue);
     });
   }
 
