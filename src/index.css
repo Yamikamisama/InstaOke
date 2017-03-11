@@ -16,11 +16,23 @@ body {
 }
 
 .joinButton {
-  height: 200px;
-  width: 200px;
+  height: 256px;
+  width: 361px;
   background-image: url('join.svg');
   background-repeat: no-repeat;
   background-position: center;
+  background-color: transparent;
+  border: none;
+}
+
+.createButton {
+  height: 256px;
+  width: 361px;
+  background-image: url('create.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  border: none;
 }
 
 .OT_publisher {
@@ -70,12 +82,14 @@ body {
 }
 
 .text-vertical-center {
+    color: #fff;
     display: table-cell;
     text-align: center;
     vertical-align: middle;
 }
 
 .text-vertical-center h1 {
+  color: #fff;
     margin: 0;
     padding: 0;
     font-size: 4.5em;
