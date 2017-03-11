@@ -30,6 +30,7 @@
     "express": "^4.15.2",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.10.0",
+    "firebase": "^3.7.1",
     "fs-extra": "0.30.0",
     "html-webpack-plugin": "2.24.0",
     "http-proxy-middleware": "0.17.3",
@@ -63,7 +64,7 @@
   },
   "scripts": {
     "dev": "node scripts/start.js",
-    "postinstall": "npm run build",
+    "heroku-postbuild": "npm run build",
     "start": "node server",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
