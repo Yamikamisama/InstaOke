@@ -15,6 +15,12 @@ import './App.css';
 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.removeSongURL = this.removeSongURL.bind(this);
+  }
+
   componentDidMount() {
     var apiKey = '45793172';
     var sessionId = '1_MX40NTc5MzE3Mn5-MTQ4OTI0OTA1NTg3NX5LOWhWZnhveTFKa1czUWhzTmxYK0hJYm5-fg';
@@ -27,9 +33,12 @@ class App extends Component {
       var publisher = OT.initPublisher();
       session.publish(publisher);
     });
-
-    this.props.db.ref('songURL').remove();
   }
+
+  removeSongURL() {
+    return this.props.db.ref('songURL').remove();
+  }
+
   render() {
     return (
       <div className="App">
@@ -39,6 +48,7 @@ class App extends Component {
           aspectRatio='16:9'
           playerScript='https://content.jwplatform.com/libraries/9AFwMfdb.js'
           file={ this.props.songURL }
+          onOneHundredPercent={ this.removeSongURL }
         />
         <div className="App-main">
         </div>
