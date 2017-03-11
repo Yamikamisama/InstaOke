@@ -7,24 +7,53 @@ export default class Home extends Component {
     super(props);
 
     this.state = {
-      showSession: false
+      displayURLModal: false,
+      songUrl: null
     };
 
-    this.displaySession = this.displaySession.bind(this);
+    this.onJoin = this.onJoin.bind(this);
+    this.onURLSubmission = this.onURLSubmission.bind(this);
+    this.onURLInputChange = this.onURLInputChange.bind(this);
   }
 
-  displaySession() {
+  onJoin() {
     this.setState({
-      showSession: true
+      displayURLModal: true
+    });
+  }
+
+  onURLSubmission(event) {
+    event.preventDefault();
+    // send songUrl to jwplayer
+    console.log(this.state.songUrl);
+  }
+
+  onURLInputChange(event) {
+    event.preventDefault();
+    this.setState({
+      songUrl: event.target.value
     });
   }
 
   render() {
     return (
       <div>
-        <button onClick={this.displaySession}>Join</button>
+        <button onClick={ this.onJoin }>Join</button>
         {
-          this.state.showSession ? <App /> : null
+          this.state.displayURLModal ? (
+          <div>
+            <div>
+              <form onSubmit={ this.onURLSubmission }>
+                <label>
+                  Song Url:
+                  <input type="text" name="url" onChange={ this.onURLInputChange } />
+                </label>
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+            <App />
+          </div>
+          ) : null
         }
       </div>
     );
