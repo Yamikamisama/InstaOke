@@ -52,7 +52,10 @@ class App extends Component {
   }
 
   removeSongURL() {
-    return this.props.db.ref('songURL').remove();
+    return Promise.all([
+      this.props.db.ref('songURL').remove(),
+      this.props.db.ref('ready').remove()
+    ]);
   }
 
   render() {
