@@ -71,6 +71,12 @@ export default class Home extends Component {
     });
   }
 
+  componentDidMount() {
+    this.db.ref().on('value', (ss) => {
+      console.log(ss.val());
+    });
+  }
+
   displayClassName() {
     return this.state.hasSongURL ? 'joinButton' : 'createButton'
   }

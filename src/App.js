@@ -20,13 +20,18 @@ class App extends Component {
 
     this.removeSongURL = this.removeSongURL.bind(this);
     this.setPlayerReady = this.setPlayerReady.bind(this);
+    this.incrementReadyValue = this.incrementReadyValue.bind(this);
   }
 
   componentWillMount() {
-    this.props.db.ref('ready').on('value', (ss) => {
+    this.props.db.ref().on('value', (ss) => {
       const value = ss.val();
-
-      if (value === 2) {
+      const jwReady = value.jwReady;
+      const tokReady = value.tokReady;
+      const ready = jwReady === 2 && tokReady === 2
+      console.log('ready!');
+      console.log(ready);
+      if (ready) {
         jwplayer().play(true);
       }
     });
@@ -37,18 +42,33 @@ class App extends Component {
     var sessionId = '1_MX40NTc5MzE3Mn5-MTQ4OTI0OTA1NTg3NX5LOWhWZnhveTFKa1czUWhzTmxYK0hJYm5-fg';
     var token = 'T1==cGFydG5lcl9pZD00NTc5MzE3MiZzaWc9MjI5NDFjZmE0NmNjNjE0MGM2Njc3OWUyM2I2ZTQzMmNlZTZjM2UyYzpzZXNzaW9uX2lkPTFfTVg0ME5UYzVNekUzTW41LU1UUTRPVEkwT1RBMU5UZzNOWDVMT1doV1puaHZlVEZLYTFjelVXaHpUbXhZSzBoSlltNS1mZyZjcmVhdGVfdGltZT0xNDg5MjQ5MDYzJm5vbmNlPTAuNDIxMDU5MDEwMzM5MDEwNiZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNDkxODM3NDYy';
     var session = OT.initSession(apiKey, sessionId)
-    .on('streamCreated', function(event) {
+    .on('streamCreated', (event) => {
+      this.incrementReadyValue('tokReady');
       session.subscribe(event.stream);
     })
-    .connect(token, function(error) {
+    .connect(token, (error) => {
       var publisher = OT.initPublisher();
-      session.publish(publisher);
+      session.publish(publisher, () => {
+        this.incrementReadyValue('tokReady');
+      });
+    });
+  }
+
+  incrementReadyValue(ref) {
+    const dbRef = this.props.db.ref(ref);
+
+    dbRef.once('value')
+    .then((ss) => {
+      const value = ss.val();
+      const newValue = value ? 2 : 1;
+
+      dbRef.set(newValue);
     });
   }
 
   setPlayerReady() {
     console.log('JW PLAYER READY!');
-    const dbRef = this.props.db.ref('ready');
+    const dbRef = this.props.db.ref('jwReady');
 
     dbRef.once('value')
     .then((ss) => {
