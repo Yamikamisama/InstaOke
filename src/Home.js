@@ -22,7 +22,9 @@ export default class Home extends Component {
 
   onJoin() {
     this.setState({
-      displayURLModal: true
+      displayURLModal: true,
+      openSession: this.state.hasSongURL,
+      songURL: this.state.songURL
     });
   }
 
@@ -62,7 +64,10 @@ export default class Home extends Component {
     this.db.ref('songURL').on('value', (ss) => {
       const value = ss.val();
 
-      this.setState({ hasSongURL: !!value });
+      this.setState({
+        songURL: value,
+        hasSongURL: !!value
+      });
     });
   }
 
