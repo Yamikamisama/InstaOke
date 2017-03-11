@@ -60,7 +60,8 @@ export default class Home extends Component {
           </div>
           ) : null
         }
-        <App openSession={ this.state.openSession }/>
+
+        { this.state.openSession ? <App /> : null }
       </div>
     );
   }
