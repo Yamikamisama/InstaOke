@@ -80,7 +80,7 @@ export default class Home extends Component {
       <div>
       <header id="top" className="header">
           <div className="text-vertical-center">
-              <h1>InstaOke</h1>
+              <h1 className="headerText">InstaOke</h1>
               <h3>Sing with a friend through the InstaOke App</h3>
               <br/>
               <button className={this.displayClassName()} onClick={ this.onJoin }></button>

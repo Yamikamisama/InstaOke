@@ -4,6 +4,10 @@ body {
   font-family: sans-serif;
 }
 
+.headerText {
+  text-shadow:-3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;
+}
+
 .urlSubmit {
   color: #fff;
   background-color: #3e3e3f;
